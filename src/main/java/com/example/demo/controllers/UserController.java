@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<User> findByUserName(@PathVariable String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            logger.info("User was not found: " + username);
+            logger.info("User {} was not found", username);
             return ResponseEntity.notFound().build();
         }
 
@@ -63,6 +63,7 @@ public class UserController {
         cartRepository.save(cart);
         user.setCart(cart);
         userRepository.save(user);
+        logger.info("User {} created successfully", user.getUsername());
         return ResponseEntity.ok(user);
     }
 
