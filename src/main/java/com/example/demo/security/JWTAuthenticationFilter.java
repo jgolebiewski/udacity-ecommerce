@@ -5,6 +5,7 @@ import com.example.demo.model.persistence.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,8 +47,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             credentials.getPassword(),
                             new ArrayList<>()));
         } catch (IOException e) {
-            log.error("Authentication attempt failed: ", e.getMessage());
-            throw new RuntimeException(e);
+            log.info("Authentication attempt failed {}", e.getMessage());
+            throw new AuthenticationCredentialsNotFoundException("Wrong user or password");
         }
     }
 
